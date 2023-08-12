@@ -9,21 +9,39 @@ let preco = {
     combo2: 7.5,
 };
 
+let adicionais = {
+    chantily: "cafe",
+    queijo: "sanduiche",
+}
 
 class CaixaDaLanchonete {
 
     calcularValorDaCompra(metodoDePagamento, itens) {
-        if(itens.length === 0)
+        if(itens.length === 0) 
             return "Não há itens no carrinho de compra!";
 
         let precoTotal = 0;
-        
-        itens.forEach(item => {
-            item = item.split(',');
-            let produto = item[0];
-            let quantidade = parseInt(item[1]);
+        let produtos = [];
+
+        for (const item of itens) {
+            const itemParts = item.split(',');
+            const produto = itemParts[0];
+            
+            if ( !preco.hasOwnProperty(produto) ) return "Item inválido!";
+            else if ( adicionais[produto] ){
+                const principal = adicionais[produto];
+                if( !produtos.includes(principal) ) return "Item extra não pode ser pedido sem o principal"
+            }
+            
+            produtos.push(produto);
+
+            const quantidade = parseInt(itemParts[1]);
+
+            if ( quantidade <= 0 ) return "Quantidade inválida!"
+
             precoTotal += preco[produto] * quantidade;
-        });
+        }
+
 
         switch(metodoDePagamento){
             case "debito":
@@ -33,13 +51,14 @@ class CaixaDaLanchonete {
                 break;
             case "credito":
                 precoTotal += precoTotal * 0.03
-                break;      
+                break;
+            default:    
+                return "Forma de pagamento inválida!"      
         }
 
         return `R$ ${precoTotal.toFixed(2).replace('.', ',')}`;
 
         }
-
 }
 
 export { CaixaDaLanchonete };
