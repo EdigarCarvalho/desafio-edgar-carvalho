@@ -130,3 +130,4 @@ O resultado esperado deve ser:
 ```
 "R$ 15,96"
 ```
+Prova que completei os testes: ![image](https://github.com/EdigarCarvalho/desafio-edgar-carvalho/assets/106999716/f05f8dec-fcb7-4d39-974d-1e575320e6b6)
